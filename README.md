@@ -6,7 +6,7 @@ Maestría en Economía Aplicada
 
 Big Data
 
-# Taller No. 1 Porblem_Set_1 - PREDICTING INCOME
+# Taller No. 1 Porblem_Set_2 - PREDICTING PORVERTY
 
 Integrantes: 
 
