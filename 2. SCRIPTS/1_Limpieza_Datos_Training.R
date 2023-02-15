@@ -24,3 +24,5 @@ summary(df_training_hogares)
 summary(df_training_personas)
 
 ####### Modificación de las bases de datos ########
+
+
