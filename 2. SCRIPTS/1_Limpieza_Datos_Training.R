@@ -19,6 +19,7 @@ df_training_personas <- import("df_training_personas.rds")
 ####### Modificación de las bases de datos y creación de variables ########
 
 ###Revisando los documentos de soporte de las bases de datos "Colombia - Medicion de Pobreza Monetaroia y Desigualdad 2018" se revisan las variables objeto de estudio. 
+
 ##Se identifican las variables y se procede a hacer las correspondientes modificaciones, a saber:
 
 # Frente a las variables de sexo, jefe de hogar y nivel educativo alcanzado, se realizan los siguientes cambios: 
@@ -56,7 +57,7 @@ df_training_personas <- df_training_personas %>% mutate(otras_ganancias = ifelse
 
 # Se agrupa la información de la base personas por hogar para unirla con la base de hogar
 
-df_training_hogares1<-df_training_personas %>% group_by(id) %>% summarize(Nro_mujeres=sum(mujer,na.rm = TRUE),
+df_training_hogares1 <-df_training_personas %>% group_by(id) %>% summarize(Nro_mujeres=sum(mujer,na.rm = TRUE),
 edad_promedio=mean(P6040,na.rm = TRUE),jefe_hogar_mujer=sum(jefe_hogar_mujer,na.rm = TRUE),Nro_hijos=sum(hijo,na.rm = TRUE),Nro_personas_trabajo_formal=sum(P6090,na.rm = TRUE),
 edu_promedio=mean(edu,na.rm = TRUE),Nro_personas_subsidio_familiar=sum(P6585s3,na.rm = TRUE), horas_trabajadas_promedio=mean(P6800,na.rm = TRUE),
 Nro_personas_empleo_propio=sum(P6870,na.rm = TRUE),Nro_personas_trabajo_formal=sum(trabajo_formal,na.rm = TRUE),Nro_personas_segundo_trabajo=sum(segundo_trabajo,na.rm = TRUE),
@@ -66,3 +67,18 @@ Nro_personas_otros_ingresos_pais=sum(otros_ingresos_pais,na.rm = TRUE),Nro_perso
 Nro_personas_otros_ingresos_instituciones=sum(otros_ingresos_instituciones,na.rm = TRUE), Nro_personas_otras_ganancias=sum(otras_ganancias,na.rm = TRUE),
 Nro_personas_PET=sum(Pet,na.rm = TRUE),Nro_personas_ocupadas=sum(Oc,na.rm = TRUE), Nro_personas_desempleadas=sum(Des,na.rm = TRUE),
 Nro_personas_inactivas=sum(Ina,na.rm = TRUE),Ingtotob_hogar=sum(Ingtotob,na.rm = TRUE))
+
+# Se generan las modificaciones a la base de datos de hogares de entrenamiento con la adición de variables: 
+
+df_training_hogares <-df_training_hogares %>% mutate(Pobre=factor(Pobre,levels=c(1,0)))
+df_training_hogares <-df_training_hogares %>% mutate(Indigente=factor(Indigente,levels=c(1,0)))
+df_training_hogares <-df_training_hogares %>% mutate(tipo_vivienda=factor(P5090,levels=c(1, 2, 3, 4, 5, 6)))
+
+df_training_hogaress <- df_training_hogares %>% mutate(Nro_cuartos = P5000)
+df_training_hogares <- df_training_hogares %>% mutate(Nro_personas_cuartos = Nper/P5010)
+df_training_hogares <- df_training_hogares %>% mutate(cuota_amortizacion = P5100)
+df_training_hogares <- df_training_hogares %>% mutate(arriendo = P5140)
+
+## Se unen ñas bases de datos:
+
+df_training_hogares_VF <- left_join(df_training_hogares, df_training_hogares1)
