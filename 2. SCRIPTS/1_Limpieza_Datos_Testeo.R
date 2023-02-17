@@ -15,3 +15,5 @@ setwd("~/OneDrive - Universidad de los Andes/2023/2023-1/BIG DATA/TALLERES GRUPA
 
 df_test_hogares <- import("df_test_hogares.rds") 
 df_test_personas <- import("df_test_personas.rds")
+
+####### Modificación de las bases de datos y creación de variables ########
