@@ -39,17 +39,7 @@ df_training_personas %>% subset(P6210 == 5) %>% select(P6210s1) %>% table()
 df_training_personas %>% subset(P6210 == 6) %>% select(P6210s1) %>% table()
 
 df_training_personas <- df_training_personas %>% mutate(P6210s1 = ifelse(P6210 == 4 & P6210s1 == 0, 5, P6210s1))
-df_training_personas <- df_training_personas %>% mutate(edu = case_when(P6210 == 1 ~ 0,
-                                                      P6210 == 2 ~ P6210s1,
-                                                      P6210 == 3 ~ P6210s1 + 1,
-                                                      P6210 == 4 ~ P6210s1 + 1,
-                                                      P6210 == 5 ~ P6210s1 + 1,
-                                                      P6210 == 6 ~ P6210s1 + 1,
-                                                      P6210 == 7 ~ P6210s1 + 1,
-                                                      P6210 == 8 ~ P6210s1 + 1,
-                                                      P6210 == 9 ~ P6210s1 + 1,
-                                                      P6210 == 10 ~ P6210s1 + 1))
-
+df_training_personas <- df_training_personas %>% mutate(edu = case_when(P6210 == 1 ~ 0,P6210 == 2 ~ P6210s1,P6210 == 3 ~ P6210s1 + 1,P6210 == 4 ~ P6210s1 + 1,P6210 == 5 ~ P6210s1 + 1,P6210 == 6 ~ P6210s1 + 1, P6210 == 7 ~ P6210s1 + 1,P6210 == 8 ~ P6210s1 + 1,P6210 == 9 ~ P6210s1 + 1,P6210 == 10 ~ P6210s1 + 1))
 
 #Frente a las variables de trabajo u otros ingresos, se realizan los siguientes cambios: 
 
