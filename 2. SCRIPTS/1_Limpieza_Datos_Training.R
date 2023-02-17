@@ -74,7 +74,7 @@ df_training_hogares <-df_training_hogares %>% mutate(Pobre=factor(Pobre,levels=c
 df_training_hogares <-df_training_hogares %>% mutate(Indigente=factor(Indigente,levels=c(1,0)))
 df_training_hogares <-df_training_hogares %>% mutate(tipo_vivienda=factor(P5090,levels=c(1, 2, 3, 4, 5, 6)))
 
-df_training_hogaress <- df_training_hogares %>% mutate(Nro_cuartos = P5000)
+df_training_hogares <- df_training_hogares %>% mutate(Nro_cuartos = P5000)
 df_training_hogares <- df_training_hogares %>% mutate(Nro_personas_cuartos = Nper/P5010)
 df_training_hogares <- df_training_hogares %>% mutate(cuota_amortizacion = P5100)
 df_training_hogares <- df_training_hogares %>% mutate(arriendo = P5140)
@@ -82,3 +82,5 @@ df_training_hogares <- df_training_hogares %>% mutate(arriendo = P5140)
 ## Se unen ñas bases de datos:
 
 df_training_hogares_VF <- left_join(df_training_hogares, df_training_hogares1)
+
+summary(df_training_hogares_VF)
