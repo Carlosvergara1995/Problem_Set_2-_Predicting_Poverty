@@ -79,8 +79,10 @@ df_training_hogares <- df_training_hogares %>% mutate(Nro_personas_cuartos = Npe
 df_training_hogares <- df_training_hogares %>% mutate(cuota_amortizacion = P5100)
 df_training_hogares <- df_training_hogares %>% mutate(arriendo = P5140)
 
-## Se unen ñas bases de datos:
+## Se unen las bases de datos:
 
 df_training_hogares_VF <- left_join(df_training_hogares, df_training_hogares1)
 
 summary(df_training_hogares_VF)
+View(df_training_hogares_VF)
+
