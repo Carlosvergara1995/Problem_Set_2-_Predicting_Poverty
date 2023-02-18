@@ -83,4 +83,4 @@ df_training_hogares <- df_training_hogares %>% mutate(arriendo = P5140)
 
 df_training_hogares_VF <- left_join(df_training_hogares, df_training_hogares1)
 
-saveRDS(df_training_hogares_VF, file = "df_training_hogares_VF")
+saveRDS(df_training_hogares_VF, file = "df_training_hogares_VF.rds")
