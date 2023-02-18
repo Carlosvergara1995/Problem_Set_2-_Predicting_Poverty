@@ -83,6 +83,4 @@ df_training_hogares <- df_training_hogares %>% mutate(arriendo = P5140)
 
 df_training_hogares_VF <- left_join(df_training_hogares, df_training_hogares1)
 
-summary(df_training_hogares_VF)
-View(df_training_hogares_VF)
-
+saveRDS(df_training_hogares_VF, file = "df_training_hogares_VF")
