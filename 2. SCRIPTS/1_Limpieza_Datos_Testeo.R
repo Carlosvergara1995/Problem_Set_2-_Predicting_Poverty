@@ -81,6 +81,6 @@ Nro_personas_inactivas=sum(Ina,na.rm = TRUE))
 
 df_test_hogares_VF <- left_join(df_test_hogares, df_test_hogares1)
 
-saveRDS("df_test_hogares_VF)
+saveRDS(df_test_hogares_VF, file = "df_test_hogares_VF")
                                                               
                                                                  
