@@ -22,7 +22,16 @@ df_test_personas <- import("df_test_personas.rds")
 
 ##Se identifican las variables y se procede a hacer las correspondientes modificaciones, a saber:
 
-# Frente a las variables de sexo, jefe de hogar y nivel educativo alcanzado, se realizan los siguientes cambios: 
+#Se modifica la base de datos de hogares: 
+
+df_test_hogares <- df_test_hogares %>% mutate (tipo_vivienda=factor(P5090,levels=c(1, 2, 3, 4, 5, 6)))
+                                                                   
+df_test_hogares <- df_test_hogares %>% mutate (Nro_cuartos = P5000)
+df_test_hogares <- df_test_hogares %>% mutate (Nro_personas_cuartos = Nper/P5010)
+df_test_hogares <- df_test_hogares %>% mutate (cuota_amortizacion = P5100)
+df_test_hogares <- df_test_hogares %>% mutate (arriendo = P5140)
+
+# Frente a la base de datos de personas y sus  variables de sexo, jefe de hogar y nivel educativo alcanzado, se realizan los siguientes cambios: 
 
 df_test_personas <- df_test_personas %>% mutate(mujer = ifelse(P6020 == 2, 1, 0))
 df_test_personas <- df_test_personas %>% mutate(jefe_hogar = ifelse(P6050 == 1, 1, 0))
@@ -68,3 +77,5 @@ Nro_personas_otros_ingresos_instituciones=sum(otros_ingresos_instituciones,na.rm
 Nro_personas_PET=sum(Pet,na.rm = TRUE),Nro_personas_ocupadas=sum(Oc,na.rm = TRUE), Nro_personas_desempleadas=sum(Des,na.rm = TRUE),
 Nro_personas_inactivas=sum(Ina,na.rm = TRUE))
 
+                                                              
+                                                                 
