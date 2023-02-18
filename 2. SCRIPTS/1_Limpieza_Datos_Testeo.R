@@ -77,5 +77,10 @@ Nro_personas_otros_ingresos_instituciones=sum(otros_ingresos_instituciones,na.rm
 Nro_personas_PET=sum(Pet,na.rm = TRUE),Nro_personas_ocupadas=sum(Oc,na.rm = TRUE), Nro_personas_desempleadas=sum(Des,na.rm = TRUE),
 Nro_personas_inactivas=sum(Ina,na.rm = TRUE))
 
+# Se agregan las bases de datos: 
+
+df_test_hogares_VF <- left_join(df_test_hogares, df_test_hogares1)
+
+saveRDS("df_test_hogares_VF)
                                                               
                                                                  
