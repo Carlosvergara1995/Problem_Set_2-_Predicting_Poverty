@@ -82,7 +82,7 @@ test<- test %>%
   mutate( edu_promedio = ifelse(is.na(edu_promedio), media_edu_promediot, edu_promedio))%>%
   select(-variables_eliminar)
 
-#creamos nuestra variable dependiente para predecir la probleza en los hogares ####
+#creamos una posible variable dependiente para predecir la probleza en los hogares ####
 
 training$pobreza<- ifelse(training$Pobre == 1 | training$Indigente == 1, 1, 0)
 
@@ -93,6 +93,6 @@ pobrezatabla
 
 #encontramos que de las  164960 observaciones 33024 hogares se encuentran en estado de pobreza o indigencia 
 
-saveRDS(test, "test_sinna.rds")
-saveRDS(training, "training_sinna.rds")
+#saveRDS(test, "test_sinna.rds")
+#saveRDS(training, "training_sinna.rds")
 
