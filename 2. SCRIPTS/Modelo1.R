@@ -12,9 +12,41 @@ print(diff_variables)
 
 glimpse(training)
 glimpse(test)
+ 
+#analizamos la distribución de la pobreza en nuestra base training
+table(training$Pobre)
+prop.table(table(training$Pobre))
+#encontramos un dsvalance moderado de la base con un porcentaje del 20% de la clase minoritaria (pobre)
 
-#dummyficamos las variables categoricas 
-dumificadortraining <- dummyVars(formula = ~ . + I(age^2) + I(yearsmarried^2) - 
-                           affairs - 1, data = Affairs, fullRank = T)
-db <- predict(dumificadortraining, newdata = training)
-db <- as.data.frame(db)
+###################################################################################################################################################################
+#analizamos las variables presentes en ambas bases 
+#para hogares 
+colnames(df_test_hogares)
+colnames(df_training_hogares)
+
+# comparar los nombres de las variables
+diff_variables <- setdiff(names(df_training_hogares), names(df_test_hogares))
+
+# imprimir las variables diferentes
+print(diff_variables) #variables que estan en training y no en test
+
+#analizamos las variables presentes en ambas bases 
+#para hogares 
+colnames(df_test_personas)
+colnames(df_training_personas)
+
+# comparar los nombres de las variables
+diff_variables_p <- setdiff(names(df_training_personas), names(df_test_personas))
+
+# imprimir las variables diferentes
+print(diff_variables_p) #variables que estan en training y no en test
+
+#creamos una nueva base de training menos las variables diferentes 
+nv_training_hogares <- df_training_hogares%>%select(-all_of(diff_variables))
+
+#realizamos el mismo proceso para la base de training de personas 
+nv_training_personas <- select(df_training_personas, -diff_variables_p)
+nv_training_personas<- df_training_personas %>% select(-all_of(diff_variables_p))
+
+comprof <- setdiff(names(nv_training_hogares), names(df_test_hogares))
+print(comprof)
