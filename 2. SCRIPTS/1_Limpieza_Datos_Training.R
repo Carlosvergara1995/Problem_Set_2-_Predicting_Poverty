@@ -66,7 +66,7 @@ Nro_personas_pension_alimenticia=sum(pension_alimenticia,na.rm = TRUE),Nro_perso
 Nro_personas_otros_ingresos_pais=sum(otros_ingresos_pais,na.rm = TRUE),Nro_personas_otros_ingresos_otros_paises=sum(otros_ingresos_otros_paises,na.rm = TRUE),
 Nro_personas_otros_ingresos_instituciones=sum(otros_ingresos_instituciones,na.rm = TRUE), Nro_personas_otras_ganancias=sum(otras_ganancias,na.rm = TRUE),
 Nro_personas_PET=sum(Pet,na.rm = TRUE),Nro_personas_ocupadas=sum(Oc,na.rm = TRUE), Nro_personas_desempleadas=sum(Des,na.rm = TRUE),
-Nro_personas_inactivas=sum(Ina,na.rm = TRUE),Ingtotob_hogar=sum(Ingtotob,na.rm = TRUE))
+Nro_personas_inactivas=sum(Ina,na.rm = TRUE),Ingtot_hogar=sum(Ingtot,na.rm = TRUE))
 
 # Se generan las modificaciones a la base de datos de hogares de entrenamiento con la adición de variables: 
 
