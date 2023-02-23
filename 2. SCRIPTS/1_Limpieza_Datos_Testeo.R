@@ -1,7 +1,7 @@
 #Problmem_Set_2
 # Limpieza de datos testeo y unificación de bases
 #Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
-_______________________________________________________________
+
 
 ####### Preparación del espacio ########
 ## Se llaman los paquetes para su uso en el Script:
