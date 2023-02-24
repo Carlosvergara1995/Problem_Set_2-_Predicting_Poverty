@@ -5,8 +5,7 @@
 
 ####### Preparación del espacio ########
 ## Se llaman los paquetes para su uso en el Script:
-install.packages("pacman")
-require(pacman)
+library(pacman)
 p_load(tidyverse,rvest,writexl,rio,skimr,pastecs,PerformanceAnalytics,naniar,gtsummary)
 
 ## Se llaman las bases de datos de Training: 
@@ -26,7 +25,7 @@ df_test_personas <- import("df_test_personas.rds")
 #variable categorica tipo de vivienda
 df_test_hogares <- df_test_hogares %>% mutate (tipo_vivienda=factor(P5090,levels=c(1, 2, 3, 4, 5, 6)))
 
-#variable número de cuearto                                                                   
+#variable número de cuartos                                                                   
 df_test_hogares <- df_test_hogares %>% mutate (Nro_cuartos = P5000)
 
 #variable número de personas por cuatos
