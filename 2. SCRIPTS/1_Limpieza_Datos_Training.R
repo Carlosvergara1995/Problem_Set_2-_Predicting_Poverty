@@ -103,5 +103,7 @@ nv_training_hogares_VF <- left_join(nv_training_hogares, nv_training_hogares1)
 
 saveRDS(nv_training_hogares_VF, file = "nv_training_hogares_VF.rds")
 
+colnames (nv_training_hogares_VF)
 
+summary(nv_training_hogares_VF)
 
