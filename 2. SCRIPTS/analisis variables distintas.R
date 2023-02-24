@@ -27,8 +27,6 @@ nv_training_hogares <- df_training_hogares%>%select(-all_of(diff_variables))
 #realizamos el mismo proceso para la base de training de personas 
 nv_training_personas<- df_training_personas %>% select(-all_of(diff_variables_p))
 
-comprof <- setdiff(names(nv_training_hogares), names(df_test_hogares))
-print(comprof)
 
 #en este punto tenemos las mismas variables en ambas bases tanto para training como para test personas y hogares
 
