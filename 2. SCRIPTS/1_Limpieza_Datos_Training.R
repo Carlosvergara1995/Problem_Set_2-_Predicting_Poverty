@@ -50,8 +50,11 @@ nv_training_personas <- nv_training_personas %>% mutate(mujer = ifelse(P6020 == 
 nv_training_personas <- nv_training_personas %>% mutate(jefe_hogar = ifelse(P6050 == 1, 1, 0))
 
 nv_training_personas <- nv_training_personas %>% mutate(hijo = ifelse(P6050 == 3, 1, 0))
+
 #variable si el jefe del hogar es mujer 
 nv_training_personas <- nv_training_personas %>% mutate(jefe_hogar_mujer = jefe_hogar*mujer)
+
+# Variable categórica de educación:
 
 aggregate(nv_training_personas$P6210s1, by = list(nv_training_personas$P6210), mean, na.rm = TRUE)
 aggregate(nv_training_personas$P6210s1, by = list(nv_training_personas$P6210), min, na.rm = TRUE)
@@ -68,15 +71,34 @@ nv_training_personas <- nv_training_personas %>% mutate(edu = case_when(P6210 ==
 
 #Frente a las variables de trabajo u otros ingresos, se realizan los siguientes cambios: 
 
+#Variable categorica trabajo_formal
 nv_training_personas <- nv_training_personas %>% mutate(trabajo_formal = ifelse(P6920 == 1, 1, 0))
+
+# Variable categórica de segundo trabajo 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(segundo_trabajo = ifelse(P7040 == 1, 1, 0))
+
+# Variable categórica de pagos por arriendo 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(arriendos = ifelse(P7495 == 1, 1, 0))
+
+# Variable categórica de pagos por pensión 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(pensiones = ifelse(P7500s2 == 1, 1, 0))
+
+# Variable categórica de pagos por pensión alimentaria 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(pension_alimenticia = ifelse(P7500s3 == 1, 1, 0))
+
+# Variable categórica de pagos por otros ingresos 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(otros_ingresos = ifelse(P7505 == 1, 1, 0))
+
+# Variable categórica de pagos por envios de dinero dentro del país 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(otros_ingresos_pais = ifelse(P7510s1 == 1, 1, 0))
+
+# Variable categórica de pagos por concepto de remesas 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(otros_ingresos_otros_paises = ifelse(P7510s2 == 1, 1, 0))
+
+# Variable categórica de pagos por otros ingresos provenientes de otras instituciones 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(otros_ingresos_instituciones = ifelse(P7510s3 == 1, 1, 0))
+
+# Variable categórica de pagos por otras ganancias 1 si 0 no
 nv_training_personas <- nv_training_personas %>% mutate(otras_ganancias = ifelse(P7510s5 == 1, 1, 0))
 
 # Se agrupa la información de la base personas por hogar para unirla con la base de hogar
@@ -106,4 +128,6 @@ saveRDS(nv_training_hogares_VF, file = "nv_training_hogares_VF.rds")
 colnames (nv_training_hogares_VF)
 
 summary(nv_training_hogares_VF)
+
+str(nv_training_hogares_VF)
 
