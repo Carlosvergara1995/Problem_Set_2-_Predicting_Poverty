@@ -25,7 +25,6 @@ print(diff_variables_p) #variables que estan en training y no en test
 nv_training_hogares <- df_training_hogares%>%select(-all_of(diff_variables))
 
 #realizamos el mismo proceso para la base de training de personas 
-nv_training_personas <- select(df_training_personas, -diff_variables_p)
 nv_training_personas<- df_training_personas %>% select(-all_of(diff_variables_p))
 
 comprof <- setdiff(names(nv_training_hogares), names(df_test_hogares))
