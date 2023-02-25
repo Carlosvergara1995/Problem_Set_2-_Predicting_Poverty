@@ -29,5 +29,6 @@ nv_training_personas<- df_training_personas %>% select(-all_of(diff_variables_p)
 
 
 #en este punto tenemos las mismas variables en ambas bases tanto para training como para test personas y hogares
-
+saveRDS(nv_training_hogares, file = "nv_training_hogares.rds")
+saveRDS(nv_training_personas, file = "nv_training_personas.rds")
 
