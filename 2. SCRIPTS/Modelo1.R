@@ -9,7 +9,6 @@ test <- nv_test_sinna
 nv_training_sinna <- readRDS("~/Desktop/git hut repositorios/Problem_Set_2/3. STORE/nv_training_sinna.rds")
 training<- nv_training_sinna
 
-
 #ANALISIS DE VARIABLES####
 # comparar los nombres de las variables
 diff_variables <- setdiff(names(training), names(test))
@@ -89,14 +88,12 @@ db_train <- db_train[, apply(db_train, 2, sd) != 0]
 matriz_cor <- cor(db_train)
 
 # Identificar las columnas altamente correlacionadas
-columnas_correlacionadast <- findCorrelation(matriz_cor, cutoff = 0.8)
+columnas_correlacionadas <- findCorrelation(matriz_cor, cutoff = 0.8)
 
-#para test
-matriz_cort <- cor(db_test)
-columnas_correlacionadast <- findCorrelation(matriz_cor, cutoff = 0.8)
+
 # Eliminar las columnas identificadas
 db_train  <- subset(db_train, select = -columnas_correlacionadas)
-db_test  <- subset(db_test, select = -columnas_correlacionadast)
+db_test  <- subset(db_test, select = -columnas_correlacionadas)
 
 ##Escaladas####
 # Estandarizamos DESPU?S de partir la base en train/test
@@ -109,18 +106,19 @@ df_test_con_dummies_s <- db_test
 df_train_con_dummies_s <- as_tibble(df_train_con_dummies_s)
 df_test_con_dummies_s <- as_tibble(df_test_con_dummies_s)
 
-#variables que comienzan en Nro
 
-variables_nro <- grep("^Nro", colnames(db_train), value = TRUE)
-variables_numericas <- c("P5000", "P5010", "P5130", "P5140", "Nper", "Npersug", "Li", "Lp", "Fex_c", "Fex_dpto", "arriendo", "edad_promedio", "edu_promedio", "horas_trabajadas_promedio", variables_nro)
+# Seleccionar las columnas que est?n en ambos datasets y la columna Pobre
+cols <- c(intersect(names(df_train_con_dummies_s), names(df_test_con_dummies_s)), "Pobre.1")
+df_train_con_dummies_s <- df_train_con_dummies_s[, cols]
+cols <- c(intersect(names(df_train_con_dummies_s), names(df_test_con_dummies_s)))
+df_test_con_dummies_s <- df_test_con_dummies_s[, cols]
 
-#creamos nuestro escalador 
-escalador <- preProcess(df_train_con_dummies_s[, variables_numericas],
-                        method = c("center", "scale"))
-df_train_con_dummies_s[, variables_numericas] <- predict(escalador, df_train_con_dummies_s[, variables_numericas])
-df_test_con_dummies_s[, variables_numericas] <- predict(escalador, df_test_con_dummies_s[, variables_numericas])
+#verificamos
+diff_variables <- setdiff(names(df_train_con_dummies_s), names(df_test_con_dummies_s))
+
 
 #saveRDS(df_test_con_dummies_s,"dvf_test.rds")
 #saveRDS(df_train_con_dummies_s,"dvf_train.rds")
+
 
 
