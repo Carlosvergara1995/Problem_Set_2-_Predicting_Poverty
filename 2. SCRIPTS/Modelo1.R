@@ -1,6 +1,6 @@
 #Modelo 1 
 require(pacman)
-p_load(tidyverse,rio,skimr,dplyr, caret, magrittr)
+p_load(tidyverse,rio,skimr,dplyr, caret, magrittr, glmnet,smotefamily,ROSE)
 
 #cargamos nuestras bases directamente desde store
 nv_test_sinna <- readRDS("~/Desktop/git hut repositorios/Problem_Set_2/3. STORE/nv_test_sinna.rds")
@@ -29,7 +29,7 @@ prop.table(table(training$Pobre))
 #encontramos un desvalance moderado de la base con un porcentaje del 20% de la clase minoritaria (pobre)
 
 
-#seeleccionamos nuestras variables categoricas y dummificamos####
+#seeleccionamos nuestras variables categoricas ####
 #para training
 training<- training %>% 
   mutate(P5090 = factor(P5090),
@@ -46,14 +46,42 @@ test<- test %>%
          tipo_vivienda= factor(tipo_vivienda))
 
 
+# Eliminar las columnas que no se necesitan para el analisis####
+df_train  <- select(training, -c(Clase, id, Depto))
+df_test  <-  subset(test,  select = -c(Clase,id,Depto))
+
+#Cambiamos factores####
+df_train$P5090 <- factor(df_train$P5090)
+df_test$P5090 <- factor(df_test$P5090)
+
+df_train$Dominio <- factor(df_train$Dominio)
+df_test$Dominio <- factor(df_test$Dominio)
+
+df_train$Pobre <- factor(df_train$Pobre)
 # Dummyficamos ####
-dumificador <- dummyVars(formula = ~ ., data = training, fullRank = T)
-db_train <- predict(dumificador, newdata = training)
+
+###Cambiamos factores
+df_train$P5090 <- factor(df_train$P5090)
+df_test$P5090 <- factor(df_test$P5090)
+
+df_train$Dominio <- factor(df_train$Dominio)
+df_test$Dominio <- factor(df_test$Dominio)
+
+df_train$Pobre <- factor(df_train$Pobre)
+
+
+##Creamos las dummies - - - Dummyficamos ####
+dumificador <- dummyVars(formula = ~ ., data = df_train, fullRank = T)
+db_train <- predict(dumificador, newdata = df_train)
 db_train <- as.data.frame(db_train)
 
-dumificador <- dummyVars(formula = ~ ., data = test, fullRank = T)
-db_test <- predict(dumificador, newdata = test)
+dumificador <- dummyVars(formula = ~ ., data = df_test, fullRank = T)
+db_test <- predict(dumificador, newdata = df_test)
 db_test <- as.data.frame(db_test)
+
+
+# Eliminar la variable con desviaci?n est?ndar igual a cero
+db_train <- db_train[, apply(db_train, 2, sd) != 0]
 
 # Eliminamos columna por multicolinealidad####
 
@@ -61,26 +89,37 @@ db_test <- as.data.frame(db_test)
 matriz_cor <- cor(db_train)
 
 # Identificar las columnas altamente correlacionadas
-columnas_correlacionadas <- findCorrelation(matriz_cor, cutoff = 0.8)
+columnas_correlacionadast <- findCorrelation(matriz_cor, cutoff = 0.8)
 
+#para test
+matriz_cort <- cor(db_test)
+columnas_correlacionadast <- findCorrelation(matriz_cor, cutoff = 0.8)
 # Eliminar las columnas identificadas
 db_train  <- subset(db_train, select = -columnas_correlacionadas)
-
+db_test  <- subset(db_test, select = -columnas_correlacionadast)
 
 ##Escaladas####
 # Estandarizamos DESPU?S de partir la base en train/test
-glimpse(df_train_con_dummies)
+glimpse(db_train)
+glimpse(db_test)
 
-df_train_con_dummies_s <- df_train_con_dummies
-df_test_con_dummies_s <- df_test_con_dummies
+df_train_con_dummies_s <- db_train 
+df_test_con_dummies_s <- db_test
 
 df_train_con_dummies_s <- as_tibble(df_train_con_dummies_s)
 df_test_con_dummies_s <- as_tibble(df_test_con_dummies_s)
 
-variables_numericas <- c("Ingtotug", "Ingtotugarr",
-                         "Ingpcug", "Li", "Lp","Fex_c","edad_promedio","Ingtotob_hogar")
-escalador <- preProcess(df_train_con_dummies[, variables_numericas],
+#variables que comienzan en Nro
+
+variables_nro <- grep("^Nro", colnames(db_train), value = TRUE)
+variables_numericas <- c("P5000", "P5010", "P5130", "P5140", "Nper", "Npersug", "Li", "Lp", "Fex_c", "Fex_dpto", "arriendo", "edad_promedio", "edu_promedio", "horas_trabajadas_promedio", variables_nro)
+
+#creamos nuestro escalador 
+escalador <- preProcess(df_train_con_dummies_s[, variables_numericas],
                         method = c("center", "scale"))
-df_train_con_dummies_s[, variables_numericas] <- predict(escalador, df_train_con_dummies[, variables_numericas])
-df_test_con_dummies_s[, variables_numericas] <- predict(escalador, df_test_con_dummies[, variables_numericas])
+df_train_con_dummies_s[, variables_numericas] <- predict(escalador, df_train_con_dummies_s[, variables_numericas])
+df_test_con_dummies_s[, variables_numericas] <- predict(escalador, df_test_con_dummies_s[, variables_numericas])
+
+saveRDS(df_test_con_dummies_s)
+
 
