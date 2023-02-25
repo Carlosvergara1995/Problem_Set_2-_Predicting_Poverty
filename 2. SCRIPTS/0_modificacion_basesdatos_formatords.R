@@ -6,13 +6,18 @@ _______________________________________________________________
 #######Preparación del espacio########
 
 ## Se llaman los paquetes para su uso en el Script:
+rm(list=ls())
 install.packages("pacman")
 require(pacman)
 p_load(tidyverse,rvest,writexl,rio,skimr,pastecs,PerformanceAnalytics,naniar,gtsummary)
 
 ## Se llaman las bases de datos: 
+<<<<<<< Updated upstream
 rm(list=ls())
 setwd("~/OneDrive - Universidad de los Andes/uniandes-bdml-20231-ps2 2")
+=======
+setwd("data")
+>>>>>>> Stashed changes
 
 df_training_hogares <- import("train_hogares.csv") 
 df_training_personas <- import("train_personas.csv")
