@@ -98,6 +98,6 @@ test %<>%
 
 any(is.na(test))
 
-saveRDS(test, "nv_test_sinna.rds")
-saveRDS(training, "nv_training_sinna.rds")
+#saveRDS(test, "nv_test_sinna.rds")
+#saveRDS(training, "nv_training_sinna.rds")
 
