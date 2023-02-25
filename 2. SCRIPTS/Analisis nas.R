@@ -14,7 +14,7 @@ test_1 <- test
 
 #analisis de estructura de nuestra base
 skim(training)
-summary(train)
+
 
 #analisis para construccion de la variable dependiente
 table(training$Pobre, useNA = "always")
