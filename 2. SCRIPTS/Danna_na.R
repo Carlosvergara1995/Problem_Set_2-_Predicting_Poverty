@@ -189,30 +189,9 @@ db_train  <- subset(db_train, select = -columnas_correlacionadas)
 
 
 
-##Escaladas
-# Estandarizamos DESPUÉS de partir la base en train/test
-glimpse(df_train_con_dummies)
-
-df_train_con_dummies_s <- df_train_con_dummies
-df_test_con_dummies_s <- df_test_con_dummies
-
-df_train_con_dummies_s <- as_tibble(df_train_con_dummies_s)
-df_test_con_dummies_s <- as_tibble(df_test_con_dummies_s)
-
-variables_numericas <- c("Ingtotug", "Ingtotugarr",
-                         "Ingpcug", "Li", "Lp","Fex_c","edad_promedio","Ingtotob_hogar")
-escalador <- preProcess(df_train_con_dummies[, variables_numericas],
-                        method = c("center", "scale"))
-df_train_con_dummies_s[, variables_numericas] <- predict(escalador, df_train_con_dummies[, variables_numericas])
-df_test_con_dummies_s[, variables_numericas] <- predict(escalador, df_test_con_dummies[, variables_numericas])
 
 
 ####Modelo 1 sin hacer nada###########
-
-
-############# prueba #####################
-
-
 
 
 
@@ -289,6 +268,7 @@ write.csv(Respuesta_lasso_grid_serch, "Respuesta_lasso_grid_search.csv", row.nam
 
 
 
+
 # Obtener los niveles de la variable de respuesta
 levels_y <- levels(y_train)
 
@@ -302,7 +282,14 @@ y_train <- factor(y_train, levels = levels_y, labels = levels_y_validos)
 
 lambda_grid <- 10^seq(-4, 0.01, length = 10) #en la practica se suele usar una grilla de 200 o 300
 tune_grid <- expand.grid(alpha = 0:1,
-                         lambda = seq(0.001, 1, length = 10))
+                         lambda = seq(0.001, 1, length = 30))
+fiveStats <- function(...) c(twoClassSummary(...), defaultSummary(...)) 
+ctrl<- trainControl(method = "cv",
+                    number = 10,
+                    summaryFunction = fiveStats, 
+                    classProbs = TRUE,
+                    verbose=FALSE,
+                    savePredictions = T)
 
 set.seed(1410)
 modelo_grid_search_ROC <- train(x_train, y_train, 
@@ -328,12 +315,18 @@ mejor_modelo_2 <- modelo_grid_search_ROC$results[which.max(modelo_grid_search_RO
 y_train <- as.factor(y_train)
 modelo_final_2<- glmnet(x_train, y_train, alpha = mejor_modelo_2$alpha, lambda = mejor_modelo_2$lambda, family = "binomial")
 
+x_test<- db_test 
+str(x_test)
+##Dejamos las mismas columnas
+x_test <- x_test[, names(x_train)]
+
 
 # Hacer las predicciones con el modelo ajustado
 pobre2 <- ifelse(predict(modelo_final_2, newx = as.matrix(x_test), type = "response") >= 0.5, 1, 0)
 
-test<- import("test_sinna.rds") 
 
+
+test<- import("test_sinna.rds") 
 Respuesta_lasso_grid_serch_ROC <- data.frame(id = test$id, pobre = pobre2)
 
 #### vemos porcentajes
@@ -344,7 +337,7 @@ prop.table(tabla_frecuencia)
 
 ###exportamos
 
-write.csv(Respuesta_lasso_grid_serch_ROC, "Respuesta_lasso_grid_serch_ROC_05.csv", row.names = FALSE)
+write.csv(Respuesta_lasso_grid_serch_ROC, "Respuesta_lasso_grid_serch_ROC_052.csv", row.names = FALSE)
 
 
 
