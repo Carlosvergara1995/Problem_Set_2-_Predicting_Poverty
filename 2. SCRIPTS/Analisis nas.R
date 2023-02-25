@@ -1,13 +1,13 @@
 #Cargamos nuestras librearias 
 require(pacman)
-p_load(tidyverse,rio,skimr,dplyr, caret)
+p_load(tidyverse,rio,skimr,dplyr, caret, magrittr)
 
 #Cargamos la bases ensambladas finales de datos
 setwd('~/Desktop/git hut repositorios/Problem_Set_2/3. STORE')
 
 #base training 
-training<- import("nv_training_hogares_VF") 
-training_1<- training
+training<- import("nv_training_hogares_VF.rds") 
+training<- nv_training_hogares_VF
 #base test
 test <- import("df_test_hogares_VF.rds")
 test_1 <- test
@@ -53,19 +53,16 @@ print(porcentaje_nulos_por_columna[porcentaje_nulos_por_columna > 0])
 media_P5130 <- mean(training$P5130, na.rm = TRUE)
 media_edu_promedio <- mean(training$edu_promedio, na.rm = TRUE)
 
-training <- training %>%
-  mutate(edu_promedio = ifelse(is.na(edu_promedio), media_edu_promedio, edu_promedio)) %>%
-  mutate(arriendo = ifelse(is.na(arriendo), 0, arriendo)) %>%
-  mutate(horas_trabajadas_promedio = ifelse(is.na(horas_trabajadas_promedio), 0, arriendo)) %>%
-  mutate(P5130 = ifelse(Nro_personas_arriendos == 1 & is.na(P5130), P5130, ifelse(Nro_personas_arriendos == 0 & is.na(P5130), media_P5130, P5130)))
+training %<>%
+  mutate(edu_promedio = ifelse(is.na(edu_promedio), media_edu_promedio, edu_promedio),
+         arriendo = ifelse(is.na(arriendo), 0, arriendo),
+         horas_trabajadas_promedio = ifelse(is.na(horas_trabajadas_promedio), 0, horas_trabajadas_promedio),
+         P5140 = ifelse(is.na(P5140), 0, P5140),
+         P5130 = ifelse(is.na(P5130) & P5140 != 0, P5140, P5130),
+         P5130 = ifelse(is.na(P5130), media_P5130, P5130)) %>%
+  select(-P5100, -cuota_amortizacion)
 
-training$arriendo <- ifelse(is.na(training$arriendo), 0, training$arriendo)
-
-training$horas_trabajadas_promedio <- ifelse(is.na(training$horas_trabajadas_promedio), 0, training$horas_trabajadas_promedio)
-
-training$P5130 <- ifelse(training$Nro_personas_arriendos == 1 & is.na(training$P5130), training$P5130, ifelse(training$Nro_personas_arriendos == 0 & is.na(training$P5130), media_P5130, training$P5130))
-
-training <- training[, !(names(training) %in% c("P5100", "P5140", "cuota_amortizacion"))]
+any(is.na(training))
 
 #se realiza el mismo procedimiento en test
 attach(test)
@@ -84,27 +81,22 @@ print(paste("Variables con NA:", paste(variables_con_na_t, collapse = ", ")))
 print(paste("Porcentaje de NA por variable:"))
 print(porcentaje_nulos_por_columna_t[porcentaje_nulos_por_columna_t > 0])
 
-
-#calculamos el promedio de las variable
-media_P5130_t <- mean(test$P5130, na.rm = TRUE)
+# Calcular los promedios
 media_edu_promedio_t <- mean(test$edu_promedio, na.rm = TRUE)
-#variables a eliminar por multicolinealidad y por altas porcentajes de na
+media_P5130_t <- mean(test$P5130, na.rm = TRUE)
 
-#codificamos nuestras variables 
-test <- test %>%
-  mutate(edu_promedio = ifelse(is.na(edu_promedio), media_edu_promedio_t, edu_promedio)) %>%
-  mutate(arriendo = ifelse(is.na(arriendo), 0, arriendo)) %>%
-  mutate(horas_trabajadas_promedio = ifelse(is.na(horas_trabajadas_promedio), 0, arriendo)) %>%
-  mutate(P5130 = ifelse(Nro_personas_arriendos == 1 & is.na(P5130), P5130, ifelse(Nro_personas_arriendos == 0 & is.na(P5130), media_P5130, P5130)))
+# Reemplazar valores faltantes usando el operador %<>%
 
-test$arriendo <- ifelse(is.na(test$arriendo), 0, test$arriendo)
+test %<>%
+  mutate(edu_promedio = ifelse(is.na(edu_promedio), media_edu_promedio_t, edu_promedio),
+         arriendo = ifelse(is.na(arriendo), 0, arriendo),
+         horas_trabajadas_promedio = ifelse(is.na(horas_trabajadas_promedio), 0, horas_trabajadas_promedio),
+         P5140 = ifelse(is.na(P5140), 0, P5140),
+         P5130 = ifelse(is.na(P5130) & P5140 != 0, P5140, P5130),
+         P5130 = ifelse(is.na(P5130), media_P5130_t, P5130)) %>%
+  select(-P5100, -cuota_amortizacion)
 
-test$horas_trabajadas_promedio <- ifelse(is.na(test$horas_trabajadas_promedio), 0, test$horas_trabajadas_promedio)
-
-test$P5130 <- ifelse(test$Nro_personas_arriendos == 1 & is.na(test$P5130), test$P5130, ifelse(test$Nro_personas_arriendos == 0 & is.na(test$P5130), media_P5130_t, test$P5130))
-
-test <- test[, !(names(test) %in% c("P5100", "P5140", "cuota_amortizacion"))]
-
+any(is.na(test))
 
 saveRDS(test, "nv_test_sinna.rds")
 saveRDS(training, "nv_training_sinna.rds")
