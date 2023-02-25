@@ -6,7 +6,7 @@ p_load(tidyverse,rio,skimr,dplyr, caret, magrittr)
 setwd('~/Desktop/git hut repositorios/Problem_Set_2/3. STORE')
 
 #base training 
-training<- import("nv_training_hogares_VF.rds") 
+nv_training_hogares_VF<- import("nv_training_hogares_VF.rds") 
 training<- nv_training_hogares_VF
 #base test
 test <- import("df_test_hogares_VF.rds")
