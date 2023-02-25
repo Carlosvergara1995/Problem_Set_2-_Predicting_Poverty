@@ -51,7 +51,7 @@ db_train  <- subset(db_train, select = -columnas_correlacionadas)
 cols <- c(intersect(names(db_train), names(db_test)), "Pobre.1")
 db_train <- db_train[, cols]
 cols <- c(intersect(names(db_train), names(db_test)))
-db_test <- db_train[, cols]
+db_test <- db_test[, cols]
 
 ###Con rose balanceamos la data
 names(db_train) <- make.names(names(db_train))
@@ -76,50 +76,81 @@ x_train <- db_train[, -which(names(db_train) == "Pobre.1")]
 y_train <- db_train$Pobre.1
 x_test <- db_test
 
+####Balanceada
+x_train_b <- db_train_balanced[, -which(names(db_train_balanced) == "Pobre.1")]
+y_train_b <- db_train_balanced$Pobre.1
+
+# Check levels of outcome variable
+y_train <- make.names(y_train)
+y_train_b <- make.names(y_train_b)
 
 # Crear modelo con regresión logística y Lasso
 
 tune_grid <- expand.grid(alpha = 0:1,
-                         lambda = seq(0.001, 1, length = 10))
+                         lambda = seq(0.001, 1, length = 15))
+fiveStats <- function(...) c(twoClassSummary(...), defaultSummary(...)) 
+ctrl<- trainControl(method = "cv",
+                    number = 5,
+                    summaryFunction = fiveStats, 
+                    classProbs = TRUE,
+                    verbose=FALSE,
+                    savePredictions = T)
 
-modelo_1 <- train(x_train, y_train,
-               method = "glmnet",
-               trControl = trainControl(method = "cv", number = 5),
-               family = "binomial", 
-               tuneGrid = tune_grid,
-               metric = "Spec ",
-               reProcess = c("center", "scale"))
-
+set.seed(1410)
+##########MODELO DESBALANCEADO ############
+modelo_1 <- train(x_train, y_train, 
+                                method = "glmnet",
+                                trControl = ctrl,
+                                family = "binomial", 
+                                metric = "ROC",
+                                tuneGrid = tune_grid, 
+                                preProcess = c("center", "scale")
+)
 print(modelo_1)
-model$results
 
-# Seleccionar el mejor modelo basado en la menor tasa de error de clasificación en el conjunto de prueba
+###########MODELO BALANCEADO ############
+modelo_balanceado <- train(x_train_b, y_train_b, 
+                  method = "glmnet",
+                  trControl = ctrl,
+                  family = "binomial", 
+                  metric = "ROC",
+                  tuneGrid = tune_grid, 
+                  preProcess = c("center", "scale")
+)
+print(modelo_balanceado)
 
-mejor_modelo <- modelo_1$results[which.max(modelo_1$results$Accuracy),]
 
+# Seleccionar el mejor modelo basados en la mejor ROC
+
+modelo_T1 <- modelo_1$results[which.max(modelo_1$results$ROC),]
+modelo_bal <- modelo_balanceado$results[which.max(modelo_balanceado$results$ROC),]
 
 ########### Hacer la predicción #################
 # Crear el modelo de clasificación final utilizando el mejor valor de alpha y lambda
+modelo_pre1 <- glmnet(x_train, y_train, alpha = modelo_T1$alpha, lambda = modelo_T1$lambda, family = "binomial")
+modelo_bal <- glmnet(x_train_b, y_train_b, alpha = modelo_bal$alpha, lambda = modelo_bal$lambda, family = "binomial")
 
-modelo_final <- glmnet(x_train, y_train, alpha = mejor_modelo$alpha, lambda = mejor_modelo$lambda, family = "binomial")
+# Hacer las predicciones con el modelo 
+Pobre_des <- ifelse(predict(modelo_pre1, newx = as.matrix(x_test), type = "response") >= 0.5, 1, 0)
+Pobre_bal <- ifelse(predict(modelo_bal, newx = as.matrix(x_test), type = "response") >= 0.5, 1, 0)
 
-
-# Hacer las predicciones con el modelo ajustado
-pobre1 <- ifelse(predict(modelo_final, newx = as.matrix(x_test), type = "response") >= 0.5, 1, 0)
-
+########Importamos
 test<- import("test_sinna.rds") 
-
-Respuesta_lasso_grid_serch <- data.frame(id = test$id, pobre = pobre1)
+Modelo1_con_grid_search <- data.frame(id = test$id, Pobre = Pobre_des)
+Modelo1_con_grid_search_bal <- data.frame(id = test$id, Pobre = Pobre_bal)
 
 #### vemos porcentajes
-
-tabla_frecuencia <- table(Respuesta_lasso_grid_serch$s0)
+print("SIN BALANCEAR")
+tabla_frecuencia <- table(Modelo1_con_grid_search$s0)
 prop.table(tabla_frecuencia)
 
+print(" BALANCEADO")
+tabla_frecuencia <- table(Modelo1_con_grid_search_bal$s0)
+prop.table(tabla_frecuencia)
 
 ###exportamos
-
-write.csv(Respuesta_lasso_grid_serch, "Respuesta_lasso_grid_search.csv", row.names = FALSE)
+write.csv(Modelo1_con_grid_search, "Modelo1_con_grid_search.csv", row.names = FALSE)
+write.csv(Modelo1_con_grid_search_bal, "Modelo1_con_grid_search_bal.csv", row.names = FALSE)
 
 
 
