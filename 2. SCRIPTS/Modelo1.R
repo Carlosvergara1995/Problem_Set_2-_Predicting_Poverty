@@ -120,6 +120,7 @@ escalador <- preProcess(df_train_con_dummies_s[, variables_numericas],
 df_train_con_dummies_s[, variables_numericas] <- predict(escalador, df_train_con_dummies_s[, variables_numericas])
 df_test_con_dummies_s[, variables_numericas] <- predict(escalador, df_test_con_dummies_s[, variables_numericas])
 
-saveRDS(df_test_con_dummies_s)
+#saveRDS(df_test_con_dummies_s,"dvf_test.rds")
+#saveRDS(df_train_con_dummies_s,"dvf_train.rds")
 
 
