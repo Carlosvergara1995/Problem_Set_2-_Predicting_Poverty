@@ -13,11 +13,11 @@ test <- import("df_test_hogares_VF.rds")
 test_1 <- test
 
 #analisis de estructura de nuestra base
-skim(train)
+skim(training)
 summary(train)
 
 #analisis para construccion de la variable dependiente
-table(train$Pobre, useNA = "always")
+table(training$Pobre, useNA = "always")
 
 # Analisis na para training####
 attach(training)
