@@ -43,7 +43,7 @@ nv_training_hogares <- nv_training_hogares %>% mutate (arriendo = P5140)
 # Frente a la base de datos de personas y sus  variables de sexo, jefe de hogar y nivel educativo alcanzado, se realizan los siguientes cambios: 
 
 #variable mujer 1 si es mujer 0 en otros caos 
-nv_training_personas <- nv_training_personas %>% mutate(mujer = ifelse(P6020 == 0, 1, 0))
+nv_training_personas <- nv_training_personas %>% mutate(mujer = ifelse(P6020 == 2, 1, 0))
 
 #variable categorica, parenteszo jefe del hogar 
 nv_training_personas <- nv_training_personas %>% mutate(jefe_hogar = ifelse(P6050 == 1, 1, 0))
