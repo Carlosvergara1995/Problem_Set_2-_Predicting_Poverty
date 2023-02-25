@@ -67,8 +67,7 @@ columnas_correlacionadas <- findCorrelation(matriz_cor, cutoff = 0.8)
 db_train  <- subset(db_train, select = -columnas_correlacionadas)
 
 
-
-##Escaladas
+##Escaladas####
 # Estandarizamos DESPU?S de partir la base en train/test
 glimpse(df_train_con_dummies)
 
