@@ -15,15 +15,14 @@ prop.table(table(df_train$Pobre))*100
 #un 20% es levemente desbalanceada
 
 # Eliminar las columnas que no se necesitan para el analisis
-df_train  <- subset(df_train, select = -c(Clase,id,Depto))
-df_test  <-  subset(df_test,  select = -c(Clase,id,Depto))
+df_train  <- subset(df_train, select = -c(Clase,id,Depto, Dominio))
+df_test  <-  subset(df_test,  select = -c(Clase,id,Depto, Dominio))
 
 ###Cambiamos factores
 df_train$P5090 <- factor(df_train$P5090)
 df_test$P5090 <- factor(df_test$P5090)
 
-df_train$Dominio <- factor(df_train$Dominio)
-df_test$Dominio <- factor(df_test$Dominio)
+
 
 df_train$Pobre <- factor(df_train$Pobre)
 
@@ -86,8 +85,8 @@ y_train_b <- make.names(y_train_b)
 
 # Crear modelo con regresión logística y Lasso
 
-tune_grid <- expand.grid(alpha = 0:1,
-                         lambda = seq(0.001, 1, length = 15))
+tune_grid <- expand.grid(alpha = seq(0, 1, length = 5),
+                         lambda = seq(0.001, 1, length = 10))
 fiveStats <- function(...) c(twoClassSummary(...), defaultSummary(...)) 
 ctrl<- trainControl(method = "cv",
                     number = 5,
@@ -154,8 +153,93 @@ write.csv(Modelo1_con_grid_search_bal, "Modelo1_con_grid_search_bal.csv", row.na
 
 
 
+############ REGRESION LINEAL ############
+
+
+
+#######prueba
+
+
+# Separar los datos en variables predictoras (X) y variable respuesta (y)
+df_train_lineal <- df_train[, -which(names(df_train) == "Pobre")]
+
+
+# Convertir las variables categóricas en variables dummy
+
+dumificador <- dummyVars(formula = ~ ., data = df_train_lineal, fullRank = T)
+df_train_lineal <- predict(dumificador, newdata = df_train_lineal)
+df_train_lineal <- as.data.frame(df_train_lineal)
+
+# Dividir los datos en entrenamiento y validación
+set.seed(123)
+train_idx <- sample(nrow(df_train_lineal), 0.8*nrow(df_train_lineal))
+df_train_lineal_train <- df_train_lineal[train_idx,]
+df_train_lineal_test <- df_train_lineal[-train_idx,]
+
+
+# Definir la secuencia de valores de lambda
+lambda_seq <- 10^seq(10, -2, length = 20)
+
+# Ajustar modelos para cada valor de lambda y calcular el AIC correspondiente
+# Obtener nombres de variables numéricas
 
 
 
 
 
+AIC_values <- numeric(length = length(lambda_seq))
+for (i in seq_along(lambda_seq)) {
+  model <- glmnet(df_train_lineal_train[, -which(names(df_train_lineal_train) == "Lp")], df_train_lineal_train$Lp, alpha = 0.5, lambda = lambda_seq[i])
+  model_glm <- coef(model, s = "lambda.min")[-1]
+  AIC_values[i] <- AIC(glm(Lp ~ ., data = df_train_lineal, family = "gaussian", weights = NULL, model = model_glm))
+}
+
+
+
+
+# Seleccionar el valor de lambda con el menor AIC
+best_lambda <- lambda_seq[which.min(AIC_values)]
+
+# Obtener los coeficientes del modelo con el mejor valor de lambda
+best_model <- glmnet(X_train, y_train, alpha = 0.5, lambda = best_lambda)
+
+# Obtener las predicciones en el conjunto de validación
+pred <- predict(best_model, newx = df_train_lineal_test)
+
+# Calcular el AIC del modelo
+AIC <- AIC(best_model)
+
+
+
+set.seed(123)
+fitControl <- trainControl(## 5-fold CV, 10 better
+  method = "cv",
+  number = 5)
+
+fmla<-formula(Lp~.)
+EN<-train(fmla,
+          data=df_train_lineal_train,
+          method = 'glmnet', 
+          trControl = fitControl,
+          tuneGrid = expand.grid(alpha = seq(0,1,by = 0.1), #grilla de alpha
+                                 lambda = seq(0.001,0.02,by = 0.001)),
+          preProcess = c("center", "scale")
+) 
+
+
+EN$bestTune
+
+coef_EN<-coef(EN$finalModel, EN$bestTune$lambda)
+coef_EN
+
+
+
+resultados_ordenados <- modelo_1$results %>%
+  arrange(desc(ROC))
+
+resultados_ordenados
+
+resultados_ordenados <- modelo_balanceado$results %>%
+  arrange(desc(roc))
+
+resultados_ordenados
