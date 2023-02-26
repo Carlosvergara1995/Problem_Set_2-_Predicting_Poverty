@@ -38,7 +38,7 @@ db_test <- as.data.frame(db_test)
 
 
 
-# Eliminar la variable con desviaci髇 est醤dar igual a cero
+# Eliminar la variable con desviaci贸n est谩ndar igual a cero
 db_train <- db_train[, apply(db_train, 2, sd) != 0]
 
 #####Eliminamos columna por multicolinealidad######
@@ -46,7 +46,7 @@ matriz_cor <- cor(db_train)
 columnas_correlacionadas <- findCorrelation(matriz_cor, cutoff = 0.8)
 db_train  <- subset(db_train, select = -columnas_correlacionadas)
 
-# Seleccionar las columnas que est醤 en ambos datasets y la columna Pobre
+# Seleccionar las columnas que est谩n en ambos datasets y la columna Pobre
 cols <- c(intersect(names(db_train), names(db_test)), "Pobre.1")
 db_train <- db_train[, cols]
 cols <- c(intersect(names(db_train), names(db_test)))
@@ -83,7 +83,7 @@ y_train_b <- db_train_balanced$Pobre.1
 y_train <- make.names(y_train)
 y_train_b <- make.names(y_train_b)
 
-# Crear modelo con regresi髇 log韘tica y Lasso
+# Crear modelo con regresi贸n log铆stica y Lasso
 
 tune_grid <- expand.grid(alpha = seq(0, 1, length = 5),
                          lambda = seq(0.001, 1, length = 10))
@@ -124,8 +124,8 @@ print(modelo_balanceado)
 modelo_T1 <- modelo_1$results[which.max(modelo_1$results$ROC),]
 modelo_bal <- modelo_balanceado$results[which.max(modelo_balanceado$results$ROC),]
 
-########### Hacer la predicci髇 #################
-# Crear el modelo de clasificaci髇 final utilizando el mejor valor de alpha y lambda
+########### Hacer la predicci贸n #################
+# Crear el modelo de clasificaci贸n final utilizando el mejor valor de alpha y lambda
 modelo_pre1 <- glmnet(x_train, y_train, alpha = modelo_T1$alpha, lambda = modelo_T1$lambda, family = "binomial")
 modelo_bal <- glmnet(x_train_b, y_train_b, alpha = modelo_bal$alpha, lambda = modelo_bal$lambda, family = "binomial")
 
@@ -164,13 +164,13 @@ write.csv(Modelo1_con_grid_search_bal, "Modelo1_con_grid_search_bal.csv", row.na
 df_train_lineal <- df_train[, -which(names(df_train) == "Pobre")]
 
 
-# Convertir las variables categ髍icas en variables dummy
+# Convertir las variables categ贸ricas en variables dummy
 
 dumificador <- dummyVars(formula = ~ ., data = df_train_lineal, fullRank = T)
 df_train_lineal <- predict(dumificador, newdata = df_train_lineal)
 df_train_lineal <- as.data.frame(df_train_lineal)
 
-# Dividir los datos en entrenamiento y validaci髇
+# Dividir los datos en entrenamiento y validaci贸n
 set.seed(123)
 train_idx <- sample(nrow(df_train_lineal), 0.8*nrow(df_train_lineal))
 df_train_lineal_train <- df_train_lineal[train_idx,]
@@ -181,7 +181,7 @@ df_train_lineal_test <- df_train_lineal[-train_idx,]
 lambda_seq <- 10^seq(10, -2, length = 20)
 
 # Ajustar modelos para cada valor de lambda y calcular el AIC correspondiente
-# Obtener nombres de variables num閞icas
+# Obtener nombres de variables num茅ricas
 
 
 
@@ -203,7 +203,7 @@ best_lambda <- lambda_seq[which.min(AIC_values)]
 # Obtener los coeficientes del modelo con el mejor valor de lambda
 best_model <- glmnet(X_train, y_train, alpha = 0.5, lambda = best_lambda)
 
-# Obtener las predicciones en el conjunto de validaci髇
+# Obtener las predicciones en el conjunto de validaci贸n
 pred <- predict(best_model, newx = df_train_lineal_test)
 
 # Calcular el AIC del modelo
