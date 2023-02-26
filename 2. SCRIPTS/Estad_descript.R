@@ -38,23 +38,23 @@ df_3 <- tbl_summary(df_1, by= Pobre, statistic = list (all_continuous()~"{mean} 
 
 #Se convierte la tabla por clasificación en formato word:
 
-Tabla_est_desc_train_1 <- as_tibble(df_3)
-tabla_flex <- flextable(Tabla_est_desc_train_1)
-doc <- read_docx()
-doc <- doc %>% 
+Tabla_est_train_1 <- as_tibble(df_2)
+tabla_flex <- flextable(Tabla_est_train_1)
+doc_1 <- read_docx()
+doc_1 <- doc_1 %>% 
   body_add_flextable(tabla_flex)
-print(doc, target = "Tabla_est_desc_train_1.docx")
+print(doc_1, target = "Tabla_est_train_1.docx")
 
-Tabla_est_desc_train_2 <- as_tibble(df_2)
-tabla_flex_1 <- flextable(Tabla_est_desc_train_2)
-doc <- read_docx()
-doc <- doc %>% 
-  body_add_flextable(tabla_flex)
-print(doc, target = "Tabla_est_desc_train_2.docx")
+Tabla_est_train_2 <- as_tibble(df_3)
+tabla_flex_1 <- flextable(Tabla_est_train_2)
+doc_2 <- read_docx()
+doc_2 <- doc_2 %>% 
+  body_add_flextable(tabla_flex_1)
+print(doc_2, target = "Tabla_est_train_2.docx")
 
 ####### Estadisticas descriptivas para la base de datos testeo ########
 
-nv_test_sinna<- readRDS("nv_test_sinna")
+nv_test_sinna<- readRDS("nv_test_sinna".rds)
 dim(nv_test_sinna)
 colnames(nv_test_sinna)
 
@@ -68,9 +68,9 @@ tbl_summary(df_4, statistic = list (all_continuous()~"{mean} ({sd})")) # general
 
 Tabla_est_desc_test <- as_tibble(df_4)
 tabla_flex_3 <- flextable(Tabla_est_desc_test)
-doc <- read_docx()
-doc <- doc %>% 
+doc_3 <- read_docx()
+doc_3 <- doc_3 %>% 
   body_add_flextable(tabla_flex_3)
-print(doc, target = "Tabla_est_desc_test.docx")
+print(doc_3, target = "Tabla_est_desc_test.docx")
 
   
