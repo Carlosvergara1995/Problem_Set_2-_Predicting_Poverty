@@ -54,7 +54,7 @@ print(doc_2, target = "Tabla_est_train_2.docx")
 
 ####### Estadisticas descriptivas para la base de datos testeo ########
 
-nv_test_sinna<- readRDS("nv_test_sinna".rds)
+nv_test_sinna<- readRDS("nv_test_sinna.rds")
 dim(nv_test_sinna)
 colnames(nv_test_sinna)
 
@@ -62,7 +62,7 @@ colnames(nv_test_sinna)
 df_4 <- nv_test_sinna %>% select(c("Nper","Npersug","Depto","tipo_vivienda","Nro_cuartos","Nro_personas_cuartos","arriendo","Nro_mujeres","edad_promedio","jefe_hogar_mujer","Nro_hijos","Nro_personas_trabajo_formal","edu_promedio","Nro_personas_subsidio_familiar","horas_trabajadas_promedio","Nro_personas_empleo_propio","Nro_personas_segundo_trabajo","Nro_personas_arriendos","Nro_personas_pensiones","Nro_personas_pension_alimenticia","Nro_personas_otros_ingresos","Nro_personas_otros_ingresos_pais","Nro_personas_otros_ingresos_otros_paises","Nro_personas_otros_ingresos_instituciones","Nro_personas_otras_ganancias","Nro_personas_PET","Nro_personas_ocupadas","Nro_personas_desempleadas","Nro_personas_inactivas")) 
 summary(df_4)
 
-# estadísiticas descriptivas generales datos
+# estadísiticas descriptivas generales datos test:
 
 tbl_summary(df_4, statistic = list (all_continuous()~"{mean} ({sd})")) # generales
 
