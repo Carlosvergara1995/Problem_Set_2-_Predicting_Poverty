@@ -9,6 +9,17 @@ test <- nv_test_sinna
 nv_training_sinna <- readRDS("~/Desktop/git hut repositorios/Problem_Set_2/3. STORE/nv_training_sinna.rds")
 training<- nv_training_sinna
 
+#agregamos la columna lp a test
+variables.unicas <- distinct(training, Dominio, Lp)
+
+variables.unicas$Dominio <- paste("Dominio.", variables.unicas$Dominio, sep = "")
+
+f_merged <- merge(test, variables.unicas, by = "Dominio", all.x = TRUE)
+
+d2 <- merge(d2, d1[,c("Dominio","LP")], by = "Dominio", all.x = TRUE)
+#eliminamos la columna dominio por multicolinealidad
+
+
 #ANALISIS DE VARIABLES####
 # comparar los nombres de las variables
 diff_variables <- setdiff(names(training), names(test))
@@ -63,9 +74,6 @@ df_train$Pobre <- factor(df_train$Pobre)
 df_train$P5090 <- factor(df_train$P5090)
 df_test$P5090 <- factor(df_test$P5090)
 
-df_train$Dominio <- factor(df_train$Dominio)
-df_test$Dominio <- factor(df_test$Dominio)
-
 df_train$Pobre <- factor(df_train$Pobre)
 
 
@@ -115,7 +123,7 @@ df_test_con_dummies_s <- df_test_con_dummies_s[, cols]
 
 #verificamos
 diff_variables <- setdiff(names(df_train_con_dummies_s), names(df_test_con_dummies_s))
-
+diff_variables
 
 #saveRDS(df_test_con_dummies_s,"dvf_test.rds")
 #saveRDS(df_train_con_dummies_s,"dvf_train.rds")
