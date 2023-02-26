@@ -34,12 +34,13 @@ Se encuentra dos carpetas. (i). Documentos del traller y la base de datos y (ii)
 
 Dentro de esta carpeta, se encuentran los scripts relacionados con: 
 
-0. Modificación de bases de datos de formato cvs a rds. 
+0. Modificación de bases de datos de formato cvs a rds. (0_modificacion_basesdatos_formatords.R)
 
-1. Limpieza y unificación de bases de datos de training y test a partir de las bases de datos de hogares y personas. Se consolida en cada caso en una sola base de datos de hogares, complementada con la base de datos de personas. 
+1. Limpieza y unificación de bases de datos de training y test a partir de las bases de datos de hogares y personas. Se consolida en cada caso en una sola base de datos de hogares, complementada con la base de datos de personas. (1._Limpieza_Datos_Training.R y 1._Limpieza_Datos_Testeo.R)
 
-2. Estadísticas descriptivas aplicables para los datos de training y test. 
+2. Estadísticas descriptivas aplicables para los datos de training y test. (2_Estad_descript.R). 
 
+3. Modelo de clasificación. (3_Clasificacio_final.R)
 
 
 ## 3. STORES
