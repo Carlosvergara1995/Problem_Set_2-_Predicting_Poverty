@@ -22,7 +22,7 @@ colnames(dvf_train)
 
 ## Se seleccionan variables de interes:
 
-df_1 <- dvf_train %>% select(c("Pobre.1","Nper","tipo_vivienda.2","tipo_vivienda.3","tipo_vivienda.4","tipo_vivienda.5","Nro_cuartos", "Nro_personas_cuartos","arriendo","Nro_mujeres","edad_promedio","jefe_hogar_mujer","Nro_hijos","Nro_personas_trabajo_formal","edu_promedio","Nro_personas_subsidio_familiar","horas_trabajadas_promedio","Nro_personas_empleo_propio","Nro_personas_segundo_trabajo","Nro_personas_arriendos","Nro_personas_pensiones","Nro_personas_pension_alimenticia","Nro_personas_otros_ingresos","Nro_personas_otros_ingresos_pais","Nro_personas_otros_ingresos_otros_paises","Nro_personas_otros_ingresos_instituciones","Nro_personas_otras_ganancias","Nro_personas_PET","Nro_personas_ocupadas","Nro_personas_desempleadas","Nro_personas_inactivas"))
+df_1 <- dvf_train %>% select(c("tipo_vivienda.3","tipo_vivienda.5","Nro_cuartos","Nro_mujeres","jefe_hogar_mujer","Nro_hijos","Nro_personas_trabajo_formal","edu_promedio", "Nro_personas_subsidio_familiar","horas_trabajadas_promedio","Nro_personas_segundo_trabajo","Nro_personas_pensiones","Nro_personas_pension_alimenticia","Nro_personas_otros_ingresos","Nro_personas_otros_ingresos_pais","Nro_personas_otros_ingresos_otros_paises","Nro_personas_otros_ingresos_instituciones","Nro_personas_otras_ganancias","Nro_personas_PET","Nro_personas_ocupadas","Nro_personas_desempleadas","Nro_personas_inactivas","Pobre.1"))
 
 ### Estadísticas descriptivas ###
 
@@ -44,8 +44,24 @@ write_xlsx(descriptivas_trainig, "descriptivas_trainig.xlsx")
 tbl_summary(df_1, statistic = list (all_continuous()~"{mean} ({sd})")) # generales
 tbl_summary(df_1, by= Pobre.1, statistic = list (all_continuous()~"{mean} ({sd})")) # por clasificación
 
-dvf_train %>% select(c("Pobre.1","Nper","tipo_vivienda.2","tipo_vivienda.3","tipo_vivienda.4","tipo_vivienda.5","Nro_cuartos", "Nro_personas_cuartos","arriendo","Nro_mujeres","edad_promedio","jefe_hogar_mujer","Nro_hijos","Nro_personas_trabajo_formal","edu_promedio","Nro_personas_subsidio_familiar","horas_trabajadas_promedio","Nro_personas_empleo_propio","Nro_personas_segundo_trabajo","Nro_personas_arriendos","Nro_personas_pensiones","Nro_personas_pension_alimenticia","Nro_personas_otros_ingresos","Nro_personas_otros_ingresos_pais","Nro_personas_otros_ingresos_otros_paises","Nro_personas_otros_ingresos_instituciones","Nro_personas_otras_ganancias","Nro_personas_PET","Nro_personas_ocupadas","Nro_personas_desempleadas","Nro_personas_inactivas"))%>% chart.Correlation()
+# Se profuden las tablas en Word: 
 
+df_train_word <- df_1 %>% tbl_summary(by = tipo_vivienda.3, statistic = all_continuous() ~ "{mean} ({sd})")
+
+# convertir la tabla a un objeto flextable
+tabla_flex <- flextable(df_1)
+
+# crear un objeto de documento Word
+doc <- read_docx()
+
+# agregar la tabla al documento
+doc <- doc %>% 
+  body_add_flextable(tabla_flex)
+
+# guardar el documento
+print(doc, target = "tabla_word.docx")
+
+df_1 %>% select(c("tipo_vivienda.3","tipo_vivienda.5","Nro_cuartos","Nro_mujeres","jefe_hogar_mujer","Nro_hijos","Nro_personas_trabajo_formal","edu_promedio", "Nro_personas_subsidio_familiar","horas_trabajadas_promedio","Nro_personas_segundo_trabajo","Nro_personas_pensiones","Nro_personas_pension_alimenticia","Nro_personas_otros_ingresos","Nro_personas_otros_ingresos_pais","Nro_personas_otros_ingresos_otros_paises","Nro_personas_otros_ingresos_instituciones","Nro_personas_otras_ganancias","Nro_personas_PET","Nro_personas_ocupadas","Nro_personas_desempleadas","Nro_personas_inactivas","Pobre.1"))
 
 ####### Estadisticas descriptivas para la base de datos testeo ########
 
