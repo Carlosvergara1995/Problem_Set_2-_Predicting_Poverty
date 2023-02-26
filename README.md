@@ -38,7 +38,9 @@ Dentro de esta carpeta, se encuentran los scripts relacionados con:
 
 1. Limpieza y unificación de bases de datos de training y test a partir de las bases de datos de hogares y personas. Se consolida en cada caso en una sola base de datos de hogares, complementada con la base de datos de personas. 
 
-[Revisar Nas, y otras]
+2. Estadísticas descriptivas aplicables para los datos de training y test. 
+
+
 
 ## 3. STORES
 
