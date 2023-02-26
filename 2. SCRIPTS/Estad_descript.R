@@ -66,11 +66,11 @@ summary(df_4)
 
 tbl_summary(df_4, statistic = list (all_continuous()~"{mean} ({sd})")) # generales
 
-Tabla_est_desc_test <- as_tibble(df_4)
-tabla_flex_3 <- flextable(Tabla_est_desc_test)
+Tabla_est_test <- as_tibble(df_4)
+tabla_flex_3 <- flextable(Tabla_est_test)
 doc_3 <- read_docx()
 doc_3 <- doc_3 %>% 
   body_add_flextable(tabla_flex_3)
-print(doc_3, target = "Tabla_est_desc_test.docx")
+print(doc_3, target = "Tabla_est_test.docx")
 
   
