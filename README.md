@@ -26,11 +26,11 @@ Fecha de entrega: 26 de febrero de 2023.
 
 # Contenido del repositorio
 
-## 1. DOCUMENTOS DEL TALLER No. 2
+## 1. DOCUMENTOS DEL TALLER No. 2:
 
 Se encuentra dos carpetas. (i). Documentos del traller y la base de datos y (ii). Entrega final. 
 
-## 2. SCRIPTS
+## 2. SCRIPTS:
 
 Dentro de esta carpeta, se encuentran los scripts relacionados con: 
 
@@ -43,10 +43,17 @@ Dentro de esta carpeta, se encuentran los scripts relacionados con:
 3. Modelo de clasificación. (3_Clasificacio_final.R)
 
 
-## 3. STORES
+## 3. STORES:
 
 
-## 4. VIEWS
+## 4. VIEWS:
+
+Dentro de la carpeta se encuentra: 
+
+(i). Las tablas de las estadisticas descriptivas
+
+(ii). Carpeta con los resultados de los modelos de clasificación que no fueron exitosos. 
+
 
 
 Este Problem Set se trabajó en la versión de R 4.2.0
