@@ -42,4 +42,8 @@ Dentro de esta carpeta, se encuentran los scripts relacionados con:
 
 ## 3. STORES
 
+
 ## 4. VIEWS
+
+
+Este Problem Set se trabajó en la versión de R 4.2.0
