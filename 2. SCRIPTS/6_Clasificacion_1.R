@@ -1,3 +1,8 @@
+#Problmem_Set_2
+# Modelo de clasificación - metodo directo
+#Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
+#_______________________________________________________________
+
 #Cargamos nuestras librearias 
 require(pacman)
 p_load(tidyverse, rio,skimr,dplyr, caret, glmnet,smotefamily,ROSE)
