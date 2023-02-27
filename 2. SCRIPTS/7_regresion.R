@@ -63,14 +63,6 @@ table(pobreza_out_sample_2)
 exactitud_2 <- mean(pobreza_predicha_2 == valit$Pobre.1)
 exactitud_2
 
-
-
-
-
-
-
-
-
 #####
 #para exportar los resultados
 test<- readRDS("~/Desktop/git hut repositorios/Problem_Set_2/3. STORE/test_sinna.rds")
