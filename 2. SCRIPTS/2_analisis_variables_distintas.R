@@ -1,3 +1,8 @@
+#Problmem_Set_2
+# Análisis de variables distintas
+#Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
+#_______________________________________________________________
+
 ###################################################################################################################################################################
 #analizamos las variables presentes en ambas bases 
 #para hogares 
