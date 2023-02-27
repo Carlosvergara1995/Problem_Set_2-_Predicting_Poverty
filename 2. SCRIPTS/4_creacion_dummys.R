@@ -1,3 +1,8 @@
+#Problmem_Set_2
+# Creación de variables Dummy
+#Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
+#_______________________________________________________________
+
 #Modelo 5
 #cargamos librerias
 library(pacman)
