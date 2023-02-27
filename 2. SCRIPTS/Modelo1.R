@@ -9,14 +9,7 @@ test <- nv_test_sinna
 nv_training_sinna <- readRDS("~/Desktop/git hut repositorios/Problem_Set_2/3. STORE/nv_training_sinna.rds")
 training<- nv_training_sinna
 
-#agregamos la columna lp a test
-variables.unicas <- distinct(training, Dominio, Lp)
 
-variables.unicas$Dominio <- paste("Dominio.", variables.unicas$Dominio, sep = "")
-
-f_merged <- merge(test, variables.unicas, by = "Dominio", all.x = TRUE)
-
-d2 <- merge(d2, d1[,c("Dominio","LP")], by = "Dominio", all.x = TRUE)
 #eliminamos la columna dominio por multicolinealidad
 
 
