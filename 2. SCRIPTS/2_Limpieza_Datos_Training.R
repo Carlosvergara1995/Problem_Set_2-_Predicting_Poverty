@@ -1,7 +1,7 @@
 #Problmem_Set_2
 # Limpieza de datos Trainign
 #Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
-_______________________________________________________________
+#_______________________________________________________________
 
 #######Preparación del espacio########
 
