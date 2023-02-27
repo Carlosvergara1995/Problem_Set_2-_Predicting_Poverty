@@ -28,7 +28,7 @@ Fecha de entrega: 26 de febrero de 2023.
 
 ## 1. DOCUMENTOS DEL TALLER No. 2:
 
-Se encuentra dos carpetas. (i). Documentos del traller y la base de datos y (ii). Entrega final. 
+Se encuentra dos carpetas. (i). Documentos del traller y la base de datos y (ii). Entrega final. Se adjunta la entrega final en formato Word y formato PDF. 
 
 ## 2. SCRIPTS:
 
@@ -36,14 +36,22 @@ Dentro de esta carpeta, se encuentran los scripts relacionados con:
 
 0. Modificación de bases de datos de formato cvs a rds. (0_modificacion_basesdatos_formatords.R)
 
-1. Limpieza y unificación de bases de datos de training y test a partir de las bases de datos de hogares y personas. Se consolida en cada caso en una sola base de datos de hogares, complementada con la base de datos de personas. (1._Limpieza_Datos_Training.R y 1._Limpieza_Datos_Testeo.R)
+1. Análisis de las variables, para identificar las variables distintas. 
 
-2. Estadísticas descriptivas aplicables para los datos de training y test. (2_Estad_descript.R). 
+2. Limpieza y unificación de bases de datos de training y test a partir de las bases de datos de hogares y personas. Se consolida en cada caso en una sola base de datos de hogares, complementada con la base de datos de personas. 
 
-3. Modelo de clasificación. (3_Clasificacio_final.R)
+3. Análisis rente a los missing Values.
 
+4. Creación de variables dummies.
+
+5. Estadísticas descriptivas aplicables para los datos de training y test. (2_Estad_descript.R). 
+
+6. Modelo de clasificación. (3_Clasificacio_final.R)
+
+7. Modelo de regresión linea. 
 
 ## 3. STORES:
+
 
 
 ## 4. VIEWS:
@@ -55,5 +63,4 @@ Dentro de la carpeta se encuentra:
 (ii). Carpeta con los resultados de los modelos de clasificación que no fueron exitosos. 
 
 
-
-Este Problem Set se trabajó en la versión de R 4.2.0
+Este Problem Set se trabajó en la versión de R 4.2.0 y licencia MIT. 
