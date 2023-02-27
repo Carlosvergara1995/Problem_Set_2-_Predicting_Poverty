@@ -175,7 +175,9 @@ Pobre_des_Sens <- as.factor(Pobre_des_Sens)
 Pobre_bal_ROC <- as.factor(Pobre_bal_ROC)
 Pobre_bal_Accuracy <- as.factor(Pobre_bal_Accuracy)
 Pobre_bal_Sens <- as.factor(Pobre_bal_Sens)
-y_test <- c(y_test)
+y_test <- as.factor(y_test)
+
+#Desbalanceada
 
 #####ROC
 confusion_des_ROC     <- confusionMatrix(Pobre_des_ROC, y_test)
