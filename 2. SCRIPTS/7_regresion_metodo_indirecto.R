@@ -1,3 +1,8 @@
+#Problmem_Set_2
+# Modelo de regresión - metodo indirecto
+#Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
+#_______________________________________________________________
+
 #regresion lienal 1
 
 #cargamos los datos 
