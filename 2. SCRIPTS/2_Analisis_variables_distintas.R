@@ -4,6 +4,21 @@
 #_______________________________________________________________
 
 ###################################################################################################################################################################
+
+#Se llaman los programas. 
+require(pacman)
+p_load(tidyverse,rio,skimr,dplyr, caret, magrittr, glmnet,smotefamily,ROSE)
+
+#Cargamos la bases ensambladas finales de datos
+setwd('~/Desktop/git hut repositorios/Problem_Set_2/3. STORE')
+
+#base training 
+nv_training_hogares_VF<- import("nv_training_hogares_VF.rds") 
+training<- nv_training_hogares_VF
+#base test
+test <- import("df_test_hogares_VF.rds")
+test_1 <- test
+
 #analizamos las variables presentes en ambas bases 
 #para hogares 
 colnames(df_test_hogares)
