@@ -1,5 +1,5 @@
 #Problmem_Set_2
-# Modelo de clasificación - metodo directo
+# Variables Dummys
 #Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
 #_______________________________________________________________
 
