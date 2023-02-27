@@ -1,3 +1,8 @@
+#Problmem_Set_2
+# Análisis de Missing Values
+#Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
+#_______________________________________________________________
+
 #Cargamos nuestras librearias 
 require(pacman)
 p_load(tidyverse,rio,skimr,dplyr, caret, magrittr)
