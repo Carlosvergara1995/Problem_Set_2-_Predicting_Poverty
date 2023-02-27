@@ -52,7 +52,7 @@ Dentro de esta carpeta, se encuentran los scripts relacionados con:
 
 ## 3. STORES:
 
-
+Se cargan todas las bases de datos utilizadas y modificadas. 
 
 ## 4. VIEWS:
 
