@@ -1,5 +1,5 @@
 #Problmem_Set_2
-# Creación de variables Dummy
+# Clasificación - Modelo directo
 #Carlos Vergara, Alexandra Rizo, Danna Bolaños, Héctor Tacumán
 #_______________________________________________________________
 
