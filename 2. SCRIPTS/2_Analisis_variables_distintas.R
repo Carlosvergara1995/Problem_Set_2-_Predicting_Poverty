@@ -13,11 +13,16 @@ p_load(tidyverse,rio,skimr,dplyr, caret, magrittr, glmnet,smotefamily,ROSE)
 setwd('~/Desktop/git hut repositorios/Problem_Set_2/3. STORE')
 
 #base training 
-nv_training_hogares_VF<- import("nv_training_hogares_VF.rds") 
-training<- nv_training_hogares_VF
+df_training_hogares<- import("df_training_hogares.rds") 
+training<- df_training_hogares
+
+df_training_personas<- import("df_training_personas.rds") 
+
 #base test
-test <- import("df_test_hogares_VF.rds")
+df_test_hogares <- import("df_test_hogares.rds")
 test_1 <- test
+
+df_test_personas<- import("df_test_personas.rds")
 
 #analizamos las variables presentes en ambas bases 
 #para hogares 
